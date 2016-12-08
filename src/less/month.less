@@ -2,12 +2,11 @@
 
 
 .rbc-row {
-  display: flex;
-  flex-direction: row;
+  
 }
 
 .rbc-row-segment {
-  padding: 0 1px 1px 1px;
+  padding: 1px 1px 1px 2px;
 
   .rbc-event-content {
     &:extend(.rbc-ellipsis);
@@ -19,8 +18,6 @@
   color: @selection-color;
   opacity: 0.05
 }
-
-
 
 .rbc-show-more {
   &:extend(.rbc-ellipsis);
@@ -36,9 +33,6 @@
 .rbc-month-view {
   position: relative;
   border: 1px solid @calendar-border;
-  display: flex;
-  flex-direction: column;
-  flex: 1 0 0;
   width: 100%;
 
   height: 100%; // ie-fix
@@ -55,18 +49,27 @@
     border-left-width: 0;
     border-right: 1px solid @cell-border;
   }
+
+  table {
+    width: 100%;
+    box-sizing: border-box;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 1em;
+  }
+
+  .rbc-row-bg table {
+      height: 100%;
+  }
 }
 
 .rbc-month-header {
-  display: flex;
-  flex-direction: row;
+  
 }
 
 .rbc-month-row {
-  display: flex;
   position: relative;
-  flex-direction: column;
-  flex: 1 0 0;
   overflow: hidden;
 
   height: 100%; // ie-fix
@@ -99,9 +102,6 @@
 
 .rbc-row-bg {
   &:extend(.rbc-abs-full);
-  display: flex;
-  flex-direction: row;
-  flex: 1 0 0;
   overflow: hidden;
 }
 

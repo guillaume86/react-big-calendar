@@ -4,15 +4,25 @@
 @active-border: darken(@btn-border, 12%);
 
 .rbc-toolbar {
-  display: flex;
-  align-items: center;
+  //display: flex;
+  //align-items: center;
+  clear: both;
   margin-bottom: 10px;
   font-size: 16px;
+  text-align: center;
 
   .rbc-toolbar-label {
     width: 100%;
     padding: 0 10px;
     text-align: center;
+  }
+
+  .rbc-left {
+    float: left;
+  }
+
+  .rbc-right {
+    float: right;
   }
 
   & button {

@@ -30,3 +30,6 @@ node_modules
 
 # Webstorm ide files
 .idea
+
+# VS Code ide files
+.vscode

@@ -11,11 +11,11 @@ import getHeight from 'dom-helpers/query/height';
 import getPosition from 'dom-helpers/query/position';
 import raf from 'dom-helpers/util/requestAnimationFrame';
 
-import EventRow from './EventRow';
-import EventEndingRow from './EventEndingRow';
+import EventRow from './MonthEventRow';
+import EventEndingRow from './MonthEventEndingRow';
 import Popup from './Popup';
 import Overlay from 'react-overlays/lib/Overlay';
-import BackgroundCells from './BackgroundCells';
+import BackgroundCells from './MonthBackgroundCells';
 import Header from './Header';
 
 import { dateFormat } from './utils/propTypes';
@@ -65,7 +65,9 @@ let MonthView = React.createClass({
   getInitialState(){
     return {
       rowLimit: 5,
-      needLimitMeasure: true
+      needLimitMeasure: true,
+      viewHeight: 300,
+      headerHeight: 20,
     }
   },
 
@@ -115,8 +117,8 @@ let MonthView = React.createClass({
     this._weekCount = weeks.length;
 
     return (
-      <div className={cn('rbc-month-view', className)}>
-        <div className='rbc-row rbc-month-header'>
+      <div className={cn('rbc-month-view', className)} ref={r => this._view = r}>
+        <div className='rbc-row rbc-month-header' ref={r => this._header = r}>
           {this._headers(weeks[0], weekdayFormat, culture)}
         </div>
         { weeks.map((week, idx) =>
@@ -130,22 +132,26 @@ let MonthView = React.createClass({
   },
 
   renderWeek(week, weekIdx, content) {
+    let { viewHeight, headerHeight } = this.state;
     let { first, last } = endOfRange(week);
-    let evts = eventsForWeek(this.props.events, week[0], week[week.length - 1], this.props)
+    let evts = eventsForWeek(this.props.events, week[0], week[week.length - 1], this.props);
 
-    evts.sort((a, b) => sortEvents(a, b, this.props))
+    evts.sort((a, b) => sortEvents(a, b, this.props));
 
-    let segments = evts = evts.map(evt => eventSegments(evt, first, last, this.props))
+    let segments = evts = evts.map(evt => eventSegments(evt, first, last, this.props));
     let limit = (this.state.rowLimit - 1) || 1;
 
-    let { levels, extra } = eventLevels(segments, limit)
+    let { levels, extra } = eventLevels(segments, limit);
 
-    content = content || ((lvls, wk) => lvls.map((lvl, idx) => this.renderRowLevel(lvl, wk, idx)))
+    content = content || ((lvls, wk) => lvls.map((lvl, idx) => this.renderRowLevel(lvl, wk, idx)));
+
+    let weekHeight = Math.abs((viewHeight - headerHeight) / this._weekCount);
 
     return (
       <div key={'week_' + weekIdx}
         className='rbc-month-row'
         ref={!weekIdx && (r => this._firstRow = r)}
+        style={{ height: weekHeight }} // TODO: measure depending on container height
       >
         {
           this.renderBackground(week, weekIdx)
@@ -153,19 +159,25 @@ let MonthView = React.createClass({
         <div
           className='rbc-row-content'
         >
-          <div
-            className='rbc-row'
-            ref={!weekIdx && (r => this._firstDateRow = r)}
-          >
-            { this._dates(week) }
-          </div>
-          {
-            content(levels, week, weekIdx)
-          }
-          {
-            !!extra.length &&
-              this.renderShowMore(segments, extra, week, weekIdx, levels.length)
-          }
+          <table>
+            <thead>
+              <tr
+                className='rbc-row'
+                ref={!weekIdx && (r => this._firstDateRow = r)}
+              >
+                { this._dates(week) }
+              </tr>  
+            </thead>
+            <tbody>
+                {
+                    content(levels, week, weekIdx)
+                }
+                {
+                    !!extra.length &&
+                    this.renderShowMore(segments, extra, week, weekIdx, levels.length)
+                }
+            </tbody>
+          </table>
         </div>
       </div>
     )
@@ -234,9 +246,8 @@ let MonthView = React.createClass({
       var offRange = dates.month(day) !== dates.month(this.props.date);
 
       return (
-        <div
+        <td
           key={'header_' + colIdx}
-          style={segStyle(1, 7)}
           className={cn('rbc-date-cell', {
             'rbc-off-range': offRange,
             'rbc-now': dates.eq(day, new Date(), 'day'),
@@ -246,21 +257,19 @@ let MonthView = React.createClass({
           <a href='#' onClick={this._dateClick.bind(null, day)}>
             { localizer.format(day, this.props.dateFormat, this.props.culture) }
           </a>
-        </div>
+        </td>
       )
     })
   },
 
   _headers(row, format, culture) {
-    let first = row[0]
-    let last = row[row.length - 1]
-    let HeaderComponent = this.props.components.header || Header
-
-    return dates.range(first, last, 'day').map((day, idx) =>
-      <div
+    let first = row[0];
+    let last = row[row.length - 1];
+    let HeaderComponent = this.props.components.header || Header;
+    let children = dates.range(first, last, 'day').map((day, idx) =>
+      <th
         key={'header_' + idx}
         className='rbc-header'
-        style={segStyle(1, 7)}
       >
         <HeaderComponent
           date={day}
@@ -268,22 +277,32 @@ let MonthView = React.createClass({
           localizer={localizer}
           format={format}
           culture={culture} />
-      </div>
-    )
+      </th>
+    );
+
+    return (
+        <table>
+            <thead>
+                <tr>
+                    {children}
+                </tr>
+            </thead>
+        </table>
+    );
   },
 
   _renderMeasureRows(levels, row, idx) {
     let first = idx === 0;
 
     return first ? (
-      <div className='rbc-row'>
-        <div className='rbc-row-segment' style={segStyle(1, 7)}>
+      <tr className="rbc-row">
+        <td className='rbc-row-segment'>
           <div ref={r => this._measureEvent = r} className={cn('rbc-event')}>
             <div className='rbc-event-content'>&nbsp;</div>
           </div>
-        </div>
-      </div>
-    ) : <span/>
+        </td>
+      </tr>
+    ) : <tr/>
   },
 
   _renderOverlay() {
@@ -312,6 +331,8 @@ let MonthView = React.createClass({
   },
 
   _measureRowLimit() {
+    let viewHeight = getHeight(this._view);
+    let headerHeight = getHeight(this._header);
     let eventHeight = getHeight(this._measureEvent);
     let labelHeight = getHeight(this._firstDateRow);
     let eventSpace = getHeight(this._firstRow) - labelHeight;
@@ -320,6 +341,8 @@ let MonthView = React.createClass({
 
     this.setState({
       needLimitMeasure: false,
+      viewHeight: viewHeight,
+      headerHeight: headerHeight,
       rowLimit: Math.max(
         Math.floor(eventSpace / eventHeight), 1)
     })
