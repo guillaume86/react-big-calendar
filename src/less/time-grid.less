@@ -13,9 +13,6 @@
 }
 
 .rbc-time-view {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
   width: 100%;
   border: 1px solid @calendar-border;
   min-height: 0;
@@ -32,13 +29,45 @@
   .rbc-row > {
     min-height: 20px;
   }
+
+  .rbc-header {
+    border-left: 1px solid @cell-border;
+    border-right: 1px solid @cell-border;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  .rbc-day-bg {
+
+  }
+
+  .rbc-time-gutter .rbc-timeslot-group {
+    border-left: none;
+  }
+
+  .rbc-allday-container {
+    border-top: 1px solid @cell-border;
+  }
+
+  .rbc-header-gutter-text {
+    border-right: 1px solid @cell-border;
+    border-top: 1px solid @cell-border;
+  }
+
+  table {
+    width: 100%;
+    box-sizing: border-box;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 1em;
+  }
 }
 
 
 .rbc-time-header {
-  display: flex;
-  flex: 0 0 auto; // should not shrink below height
-  flex-direction: column;
 
   &.rbc-overflowing {
     border-right: 1px solid @cell-border;
@@ -63,7 +92,7 @@
   }
 
   .rbc-gutter-cell {
-    flex: none;
+    //flex: none;
   }
 
   > .rbc-gutter-cell + * {
@@ -72,16 +101,13 @@
 }
 
 .rbc-time-content {
-  display: flex;
-  flex: 1 0 0%;
-  align-items: flex-start;
   width: 100%;
   border-top: 2px solid @calendar-border;
   overflow-y: auto;
   position: relative;
 
   > .rbc-time-gutter {
-    flex: none;
+    //flex: none;
   }
 
   > * + * > * {

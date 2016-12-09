@@ -195,14 +195,20 @@ let MonthView = React.createClass({
     }
 
     return (
-    <BackgroundCells
-      rtl={this.props.rtl}
-      slots={7}
-      onSelectSlot={onSelectSlot}
-      container={() => findDOMNode(this)}
-      selectable={this.props.selectable}
-      ref={r => this._bgRows[idx] = r}
-    />
+      <div className='rbc-row-bg'>
+        <table>
+            <tbody>
+              <BackgroundCells
+                rtl={this.props.rtl}
+                slots={7}
+                onSelectSlot={onSelectSlot}
+                container={() => findDOMNode(this)}
+                selectable={this.props.selectable}
+                ref={r => this._bgRows[idx] = r}
+              />
+            </tbody>
+        </table>
+      </div>
     )
   },
 

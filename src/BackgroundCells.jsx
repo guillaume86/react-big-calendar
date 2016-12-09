@@ -41,9 +41,8 @@ class DisplayCells extends React.Component {
 
     for (var i = 0; i < slots; i++) {
       children.push(
-        <div
+        <td
           key={'bg_' + i}
-          style={segStyle(1, slots)}
           className={cn('rbc-day-bg', {
             'rbc-selected-cell': selecting && i >= startIdx && i <= endIdx
           })}
@@ -52,9 +51,9 @@ class DisplayCells extends React.Component {
     }
 
     return (
-      <div className='rbc-row-bg'>
+      <tr className='rbc-row-bg'>
         { children }
-      </div>
+      </tr>
     )
   }
 

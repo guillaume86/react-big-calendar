@@ -51,15 +51,9 @@ class DisplayCells extends React.Component {
     }
 
     return (
-      <div className='rbc-row-bg'>
-        <table>
-            <tbody>
-                <tr>
-                    {children}
-                </tr>
-            </tbody>
-        </table>
-      </div>
+      <tr>
+          { children }
+      </tr>
     )
   }
 

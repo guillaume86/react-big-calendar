@@ -33,6 +33,11 @@ export function segStyle(span, slots){
   return { flexBasis: per, maxWidth: per } // IE10/11 need max-width. flex-basis doesn't respect box-sizing
 }
 
+export function colStyle(span, slots){
+  let per = (span / slots) * 100 + '%';
+  return { width: per, display: 'inline-block' };
+}
+
 export function eventLevels(rowSegments, limit = Infinity){
   let i, j, seg
     , levels = []
