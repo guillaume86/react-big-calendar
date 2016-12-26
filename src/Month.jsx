@@ -44,6 +44,8 @@ let propTypes = {
 
   popup: React.PropTypes.bool,
 
+  manualLayout: React.PropTypes.bool,
+
   popupOffset: React.PropTypes.oneOfType([
     React.PropTypes.number,
     React.PropTypes.shape({
@@ -140,6 +142,9 @@ let MonthView = React.createClass({
 
     let segments = evts = evts.map(evt => eventSegments(evt, first, last, this.props));
     let limit = (this.state.rowLimit - 1) || 1;
+    if (this.props.manualLayout) {
+      limit = Infinity;
+    }
 
     let { levels, extra } = eventLevels(segments, limit);
 

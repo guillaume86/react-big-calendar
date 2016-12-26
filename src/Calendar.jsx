@@ -148,6 +148,11 @@ let Calendar = React.createClass({
     popup: PropTypes.bool,
 
     /**
+     * Disable events truncation and the "show more" function.
+     */
+    manualLayout: PropTypes.bool,
+
+    /**
      * Distance in pixels, from the edges of the viewport, the "show more" overlay should be positioned.
      *
      * ```js
