@@ -517,8 +517,8 @@ let Calendar = React.createClass({
     notify(this.props.onSelectEvent, args)
   },
 
-  handleSelectSlot(slotInfo){
-    notify(this.props.onSelectSlot, slotInfo)
+  handleSelectSlot(...args){
+    notify(this.props.onSelectSlot, args)
   },
 
   handleHeaderClick(date){
