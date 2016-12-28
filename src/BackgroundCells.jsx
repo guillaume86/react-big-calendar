@@ -89,7 +89,7 @@ class DisplayCells extends React.Component {
     })
 
     selector
-      .on('click', point => {
+      .on('click', (point, ev) => {
         let rowBox = getBoundsForNode(node)
         let { slots, rtl } = this.props;
 
@@ -100,7 +100,7 @@ class DisplayCells extends React.Component {
           this._selectSlot({
             startIdx: currentCell,
             endIdx: currentCell
-          })
+          }, ev)
         }
 
         this._initial = {}
@@ -108,8 +108,8 @@ class DisplayCells extends React.Component {
       })
 
     selector
-      .on('select', () => {
-        this._selectSlot(this.state)
+      .on('select', (ev) => {
+        this._selectSlot(this.state, ev)
         this._initial = {}
         this.setState({ selecting: false })
         notify(this.props.onSelectEnd, [this.state]);
@@ -122,11 +122,11 @@ class DisplayCells extends React.Component {
     this._selector = null;
   }
 
-  _selectSlot({ endIdx, startIdx }) {
+  _selectSlot({ endIdx, startIdx }, ev) {
     this.props.onSelectSlot &&
       this.props.onSelectSlot({
         start: startIdx, end: endIdx
-      })
+      }, ev)
   }
 }
 

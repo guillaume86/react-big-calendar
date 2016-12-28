@@ -1,6 +1,6 @@
 {
   "name": "react-big-calendar",
-  "version": "0.11.4-iecompat",
+  "version": "0.11.5-iecompat",
   "description": "Calendar! with events",
   "registry": "npm",
   "author": "Jason Quense <monastic.panic@gmail.com>",

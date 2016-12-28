@@ -133,11 +133,11 @@ class Selection {
     }
 
     if(click && inRoot)
-      return this.emit('click', { x: e.pageX, y: e.pageY })
+      return this.emit('click', { x: e.pageX, y: e.pageY }, e)
 
     // User drag-clicked in the Selectable area
     if(!click)
-      return this.emit('select', bounds)
+      return this.emit('select', bounds, e)
 
     this.selecting = false;
   }
