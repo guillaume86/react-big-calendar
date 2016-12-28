@@ -136,8 +136,10 @@ class Selection {
       return this.emit('click', { x: e.pageX, y: e.pageY }, e)
 
     // User drag-clicked in the Selectable area
-    if(!click)
+    if(!click) {
       return this.emit('select', bounds, e)
+    }
+      
 
     this.selecting = false;
   }

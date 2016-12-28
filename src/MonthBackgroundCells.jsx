@@ -108,7 +108,7 @@ class DisplayCells extends React.Component {
       })
 
     selector
-      .on('select', (ev) => {
+      .on('select', (bounds, ev) => {
         this._selectSlot(this.state, ev)
         this._initial = {}
         this.setState({ selecting: false })

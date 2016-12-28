@@ -191,12 +191,12 @@ let MonthView = React.createClass({
   renderBackground(row, idx){
     let self = this;
 
-    function onSelectSlot({ start, end }) {
+    function onSelectSlot({ start, end }, ev) {
       self._pendingSelection = self._pendingSelection
         .concat(row.slice(start, end + 1))
 
       clearTimeout(self._selectTimer)
-      self._selectTimer = setTimeout(()=> self._selectDates())
+      self._selectTimer = setTimeout(()=> self._selectDates(ev))
     }
 
     return (
@@ -372,18 +372,18 @@ let MonthView = React.createClass({
     notify(this.props.onSelectEvent, args)
   },
 
-  _selectDates() {
+  _selectDates(ev) {
     let slots = this._pendingSelection.slice()
 
     this._pendingSelection = []
 
     slots.sort((a, b) => +a - +b)
 
-    notify(this.props.onSelectSlot, {
+    notify(this.props.onSelectSlot, [{
       slots,
       start: slots[0],
       end: slots[slots.length - 1]
-    })
+    }, ev])
   },
 
   _showMore(segments, date, weekIdx, slot) {
