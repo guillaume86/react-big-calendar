@@ -87,6 +87,13 @@ let Calendar = React.createClass({
      */
     onNavigate: PropTypes.func,
 
+    
+    /**
+     * Callback fired when clicking on a date
+     *
+     */
+    onDateClick: React.PropTypes.func,
+
     /**
      * Callback fired when the `view` value changes.
      *
