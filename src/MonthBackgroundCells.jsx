@@ -6,7 +6,7 @@ import { notify } from './utils/helpers';
 import { dateCellSelection, slotWidth, getCellAtX, pointInBox } from './utils/selection';
 import Selection, { getBoundsForNode } from './Selection';
 
-class DisplayCells extends React.Component {
+class MonthDisplayCells extends React.Component {
 
   static propTypes = {
     selectable: React.PropTypes.bool,
@@ -42,7 +42,7 @@ class DisplayCells extends React.Component {
 
     for (var i = 0; i < slots.length; i++) {
       let style, className;
-      
+
       if (backgroundPropGetter) {
         let { style: styleX, className: classNameX } = backgroundPropGetter(slots[i]);
         style = styleX;
@@ -88,7 +88,7 @@ class DisplayCells extends React.Component {
             this._initial
           , nodeBox
           , box
-          , slots
+          , slots.length
           , rtl));
       }
 
@@ -104,8 +104,8 @@ class DisplayCells extends React.Component {
         let { slots, rtl } = this.props;
 
         if (pointInBox(rowBox, point)) {
-          let width = slotWidth(getBoundsForNode(node),  this.props.slots);
-          let currentCell = getCellAtX(rowBox, point.x, width, rtl, slots);
+          let width = slotWidth(getBoundsForNode(node),  this.props.slots.length);
+          let currentCell = getCellAtX(rowBox, point.x, width, rtl, slots.length);
 
           this._selectSlot({
             startIdx: currentCell,
@@ -140,4 +140,4 @@ class DisplayCells extends React.Component {
   }
 }
 
-export default DisplayCells;
+export default MonthDisplayCells;

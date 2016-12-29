@@ -288,7 +288,7 @@ export default class TimeGrid extends Component {
                   <tbody> 
                     <BackgroundCells
                       rtl={this.props.rtl}
-                      slots={range.length}
+                      slots={range}
                       container={()=> this.refs.allDay}
                       selectable={this.props.selectable}
                       onSelectSlot={handleSelectSlot}
