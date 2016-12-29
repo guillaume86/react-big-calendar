@@ -178,7 +178,7 @@ let Calendar = React.createClass({
      * the number of slots per "section" in the Time grid views. Adjust with `step`
      * to change the default of Hour long sections, with 30 minute slots.
      */
-    timeslots: React.PropTypes.number.isRequired,
+    timeslots: React.PropTypes.number,
 
     /**
      * switch the calendar to a `right-to-left` read direction.
@@ -244,6 +244,12 @@ let Calendar = React.createClass({
      * Determines how far down the scroll pane is initially scrolled down.
      */
     scrollToTime: PropTypes.instanceOf(Date),
+
+    /**
+     * Optionally provide a function that returns an object of className or style props
+     * to be applied to the the background node.
+     */
+    backgroundPropGetter: React.PropTypes.func,
 
     /**
      * Localizer specific formats, tell the Calendar how to format and display dates.

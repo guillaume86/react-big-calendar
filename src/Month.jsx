@@ -55,7 +55,8 @@ let propTypes = {
   ]),
 
   onSelectEvent: React.PropTypes.func,
-  onSelectSlot: React.PropTypes.func
+  onSelectSlot: React.PropTypes.func,
+  backgroundPropGetter: React.PropTypes.func,
 };
 
 let MonthView = React.createClass({
@@ -190,6 +191,7 @@ let MonthView = React.createClass({
 
   renderBackground(row, idx){
     let self = this;
+    let { backgroundPropGetter } = this.props;
 
     function onSelectSlot({ start, end }, ev) {
       self._pendingSelection = self._pendingSelection
@@ -205,11 +207,12 @@ let MonthView = React.createClass({
             <tbody>
               <BackgroundCells
                 rtl={this.props.rtl}
-                slots={7}
+                slots={row}
                 onSelectSlot={onSelectSlot}
                 container={() => findDOMNode(this)}
                 selectable={this.props.selectable}
                 ref={r => this._bgRows[idx] = r}
+                backgroundPropGetter={backgroundPropGetter}
               />
             </tbody>
         </table>

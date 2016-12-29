@@ -11,8 +11,9 @@ class DisplayCells extends React.Component {
   static propTypes = {
     selectable: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
-    slots: React.PropTypes.number,
-    rtl: React.PropTypes.bool
+    slots: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Date)),
+    rtl: React.PropTypes.bool,
+    backgroundPropGetter: React.PropTypes.func,
   }
 
   state = { selecting: false }
@@ -34,18 +35,27 @@ class DisplayCells extends React.Component {
   }
 
   render(){
-    let { slots } = this.props;
+    let { slots, backgroundPropGetter } = this.props;
     let { selecting, startIdx, endIdx } = this.state
 
     let children = [];
 
-    for (var i = 0; i < slots; i++) {
+    for (var i = 0; i < slots.length; i++) {
+      let style, className;
+      
+      if (backgroundPropGetter) {
+        let { style: styleX, className: classNameX } = backgroundPropGetter(slots[i]);
+        style = styleX;
+        className = classNameX;
+      }
+
       children.push(
         <td
           key={'bg_' + i}
+          style={style}
           className={cn('rbc-day-bg', {
             'rbc-selected-cell': selecting && i >= startIdx && i <= endIdx
-          })}
+          }, className)}
         />
       )
     }
